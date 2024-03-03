@@ -1,0 +1,59 @@
+Question 1
+import requests
+from bs4 import BeautifulSoup
+
+# Specify the URL
+url = "https://www.cnbc.com/world/?region=world"
+
+# Send an HTTP request to the URL
+response = requests.get(url)
+
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Parse the HTML content of the page
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Extract headings, dates, and news links
+    headings = [heading.text.strip() for heading in soup.find_all('h3')]
+    dates = [date.text.strip() for date in soup.find_all('time')]
+    news_links = [link['href'] for link in soup.select('h3 a')]
+
+    # Print or further process the extracted information
+    for heading, date, link in zip(headings, dates, news_links):
+        print(f"Heading: {heading}")
+        print(f"Date: {date}")
+        print(f"News Link: {link}")
+        print("\n")
+
+else:
+    print(f"Failed to retrieve the page. Status code: {response.status_code}")
+
+Question 2
+import requests
+from bs4 import BeautifulSoup
+
+# Specify the URL
+url_ai_agriculture = "https://www.keaipublishing.com/en/journals/artificial-intelligence-in-agriculture/most-downloaded-articles/"
+
+# Send an HTTP request to the URL
+response_ai_agriculture = requests.get(url_ai_agriculture)
+
+# Check if the request was successful (status code 200)
+if response_ai_agriculture.status_code == 200:
+    # Parse the HTML content of the page
+    soup_ai_agriculture = BeautifulSoup(response_ai_agriculture.text, 'html.parser')
+
+    # Extract paper titles, dates, and authors
+    paper_titles = [title.text.strip() for title in soup_ai_agriculture.find_all('h5', class_='item-title')]
+    dates_ai = [date.text.strip() for date in soup_ai_agriculture.find_all('span', class_='published')]
+    authors = [author.text.strip() for author in soup_ai_agriculture.find_all('span', class_='authors')]
+
+    # Print or further process the extracted information
+    for title, date, author in zip(paper_titles, dates_ai, authors):
+        print(f"Paper Title: {title}")
+        print(f"Date: {date}")
+        print(f"Author: {author}")
+        print("\n")
+
+else:
+    print(f"Failed to retrieve the page. Status code: {response_ai_agriculture.status_code}")
